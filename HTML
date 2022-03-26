@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Piccle, The Most Elite Gaming Experience</h2>
+
+<p>Enter your Celebrity Guess and Click the Button to Guess:</p>
+
+<p id="demo"></p>
+<p id="prevGuesses"></p>
+
+<script>
+let celebrityGuesses = new Array(5);
+let guesses = 0;
+const answer = "Kanye West";
+
+// Controls Entering of Guesses
+function enterGuess(button) {
+    if (checkWord(input)) {
+        if (checkGuess(input)) {
+            console.log("Correct");
+            end(true);
+            button.style.visibility = "hidden";
+            input.style.visibility = "hidden";
+            document.getElementById("img").src = "today/4.png";
+        } else {
+            console.log("Incorrect");
+            document.getElementById("img").src = "today/" + (guesses + 1) + ".png";
+        }
+
+        celebrityGuesses[guesses++] = input.value;
+        document.getElementById("demo").innerHTML = ""; // Gets Rid of "Enter a Real Celebrity Name User Error"
+        prev();
+
+        if (guesses == 5) {
+            end(false);
+            button.style.visibility = "hidden";
+            input.style.visibility = "hidden";
+            document.getElementById("img").src = "today/4.png";
+        }
+
+    } else {
+        document.getElementById("demo").innerHTML = "Enter a Real Celebrity Name";
+    }
+}
+
+// Checks if the Parameter is a Word
+function checkWord(input) {
+    for (let i = 0; i < input.value.length; i++) {
+        if (input.value.charAt(i) >= '0' && input.value.charAt(i) <= '9') {
+            return false;
+        }
+    }
+    return true;
+}
+
+// Checks if the Guess is Correct
+function checkGuess(input) {
+    if (input.value.localeCompare(answer, 'en', { sensitivity: 'accent' }) == 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// Returns Value of All Guesses
+function prev() {
+    let result = "";
+
+    for (let i = 0; i < 5; i++) {
+        if (celebrityGuesses[i] != null) {
+            result += celebrityGuesses[i] + "<br />";
+        }
+    }
+
+    document.getElementById("prevGuesses").innerHTML = result;
+}
+
+// Sets Final Tag, Win/Lose
+function end(win) {
+    if (win) {
+        document.getElementById("final").innerHTML = "You Win! The Correct Answer Was " + answer;
+    } else {
+        document.getElementById("final").innerHTML = "You Lose LMAO! The Correct Answer Was " + answer;
+    }
+}
+</script>
+
+<input id="input" value="Enter Guess Here"/>
+
+<button onclick="enterGuess(this)">Click to Guess</button>
+
+<h1 id="final"></h1>
+
+<img id="img" src="today/0.png" style="width:1024px;height:1024px;">>
+
+</body>
+</html>
